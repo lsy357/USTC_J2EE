@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<OR-Mappering>
+    <class package="water.ustc.pojo">
+        <name value="UserBean"/>
+        <table value="user_orm"/>
+        <id name="userId" column="user_id"/>
+        <property name="userName" column="user_name" type="String" lazy="false"/>
+        <property name="userPassword" column="user_password" type="String" lazy="true"/>
+    </class>
+</OR-Mappering>
