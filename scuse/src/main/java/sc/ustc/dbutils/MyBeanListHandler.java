@@ -11,40 +11,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MyBeanListHandler<T> extends AbstractResultSetHandler<List<T>>{
-	private Class<T> classType;
-	public MyBeanListHandler(Class<T> classType) {
-		// TODO Auto-generated constructor stub
-		this.classType = classType;
-	}
+public class MyBeanListHandler<T> extends AbstractResultSetHandler<List<T>> {
+    private Class<T> classType;
 
-	/**
-	 * 返回对应xml映射信息
-	 * @return
-	 */
-	private Map<String, Object> getMapper(){
-		return Conversation.getMappers().get(this.classType.getName());
-	}
+    public MyBeanListHandler(Class<T> classType) {
+        // TODO Auto-generated constructor stub
+        this.classType = classType;
+    }
 
-	@Override
-	public List<T> handle(ResultSet rs) throws Exception {
-		// TODO Auto-generated method stub
-		List<T> list = new ArrayList<T>();
-		BeanInfo beanInfo = Introspector.getBeanInfo(classType, Object.class);
-		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
-		while(rs.next()){
-			T obj = this.classType.newInstance();
-			for (PropertyDescriptor pd : pds) {
-				pd.getWriteMethod().invoke(obj, rs.getObject(CommonUtil.getColumnName(pd.getName(), classType, getMapper(), mapperChart)));
-			}
-			list.add(obj);
-		}
-		return list != null ? list : null;
-	}
+    /**
+     * 返回对应xml映射信息
+     *
+     * @return
+     */
+    private Map<String, Object> getMapper() {
+        return Conversation.getMappers().get(this.classType.getName());
+    }
 
-	@Override
-	protected List<T> lazyHandle(ResultSet rs, Map<String, String> lazyMapper) throws Exception {
-		return null;
-	}
+    @Override
+    public List<T> handle(ResultSet rs) throws Exception {
+        // TODO Auto-generated method stub
+        List<T> list = new ArrayList<T>();
+        BeanInfo beanInfo = Introspector.getBeanInfo(classType, Object.class);
+        PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+        while (rs.next()) {
+            T obj = this.classType.newInstance();
+            for (PropertyDescriptor pd : pds) {
+                pd.getWriteMethod().invoke(obj, rs.getObject(CommonUtil.getColumnName(pd.getName(), classType, getMapper(), mapperChart)));
+            }
+            list.add(obj);
+        }
+        return list != null ? list : null;
+    }
+
+    @Override
+    protected List<T> lazyHandle(ResultSet rs, Map<String, String> lazyMapper) throws Exception {
+        return null;
+    }
 
 }

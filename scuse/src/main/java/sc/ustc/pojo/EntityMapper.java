@@ -6,7 +6,9 @@ import lombok.ToString;
 
 import java.util.List;
 
-@Getter @Setter @ToString
+@Getter
+@Setter
+@ToString
 public class EntityMapper {
 
     private String className;

@@ -12,9 +12,9 @@ public class InterceptorUtil {
     protected static List<Interceptor> sysInterceptors = new ArrayList<Interceptor>(0);
 
     static {
-        for (Object sysInterfaceClass : sysInterfacesClass){
+        for (Object sysInterfaceClass : sysInterfacesClass) {
             try {
-                sysInterceptors.add((Interceptor)((Class)sysInterfaceClass).newInstance());
+                sysInterceptors.add((Interceptor) ((Class) sysInterfaceClass).newInstance());
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("系统拦截器初始化失败");
@@ -23,37 +23,38 @@ public class InterceptorUtil {
         initSysInterceptors();
 //        实例所有已定义的拦截器
         for (String interceptorClassName : StoneValueUtil.getInterceptorAttr("class")) {
-            interceptors.put(interceptorClassName, (Interceptor)ReflectionUtil.getInstance(interceptorClassName));
+            interceptors.put(interceptorClassName, (Interceptor) ReflectionUtil.getInstance(interceptorClassName));
         }
     }
 
-    public static void initSysInterceptors(){
+    public static void initSysInterceptors() {
         PrivacyInterceptor.setPublicURLs(XMLUtil.getPublicUrls(StoneValueUtil.controllerXML));
     }
 
-//    用即取
-    public static Interceptor getInterceptor(String className){
+    //    用即取
+    public static Interceptor getInterceptor(String className) {
         return interceptors.get(className);
     }
 
-	/**
-	 * 返回所给信息的拦截器
-	 * @param interceptorsInfo
-	 * @return
-	 */
-	public static List<Interceptor> getCurrentInterceptor(List<Map<String, String>> interceptorsInfo){
-		List<sc.ustc.interceptor.Interceptor> currentInterceptors = new ArrayList<sc.ustc.interceptor.Interceptor>();
+    /**
+     * 返回所给信息的拦截器
+     *
+     * @param interceptorsInfo
+     * @return
+     */
+    public static List<Interceptor> getCurrentInterceptor(List<Map<String, String>> interceptorsInfo) {
+        List<sc.ustc.interceptor.Interceptor> currentInterceptors = new ArrayList<sc.ustc.interceptor.Interceptor>();
 //		放入系统拦截器
-        for (Interceptor sysInterceptor : sysInterceptors){
+        for (Interceptor sysInterceptor : sysInterceptors) {
             currentInterceptors.add((Interceptor) sysInterceptor);
         }
 //		放入定义的拦截器
-        if (interceptorsInfo != null){
+        if (interceptorsInfo != null) {
             for (Map<String, String> map : interceptorsInfo) {
                 currentInterceptors.add(getInterceptor(map.get("class")));
             }
         }
-		return currentInterceptors;
-	}
+        return currentInterceptors;
+    }
 
 }

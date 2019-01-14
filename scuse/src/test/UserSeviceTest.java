@@ -8,7 +8,7 @@ public class UserSeviceTest {
     UserService userService = new UserServiceImpl();
 
     @Test
-    public void checkTest(){
+    public void checkTest() {
         UserBean userBean = new UserBean();
         userBean.setUserName("lsy");
         userBean.setUserPassword("123");

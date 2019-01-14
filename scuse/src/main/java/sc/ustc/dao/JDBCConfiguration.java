@@ -21,21 +21,21 @@ public class JDBCConfiguration {
         configure();
     }
 
-    public static JDBCConfigMapper getJdbcProperty(){
+    public static JDBCConfigMapper getJdbcProperty() {
         return jdbcConfigMapper;
     }
 
-    public static List<String> getMappingResources(){
+    public static List<String> getMappingResources() {
         return mappingResources;
     }
 
     /**
      * 将xml的jdbc property封装为JDBCConfigBean对象
      */
-    private static void configure(){
+    private static void configure() {
         List<Element> propertyElements = XMLUtil.getThirdLevelElements(jdbcConfig, "jdbc", "property");
         try {
-            for (Element propertyElement : propertyElements){
+            for (Element propertyElement : propertyElements) {
                 Map<String, Object> attrs = XMLUtil.getElementsAttrs(propertyElement);
                 BeanUtils.setProperty(jdbcConfigMapper, (String) attrs.get("name"), attrs.get("value"));
             }
@@ -48,9 +48,9 @@ public class JDBCConfiguration {
     /**
      * 获取映射文件位置
      */
-    private static void parseMappingResources(){
+    private static void parseMappingResources() {
         List<Element> propertyElements = XMLUtil.getSubElementOfRoot(jdbcConfig, "mapping");
-        for (Element propertyElement : propertyElements){
+        for (Element propertyElement : propertyElements) {
             mappingResources.add(propertyElement.attributeValue("resource"));
         }
     }

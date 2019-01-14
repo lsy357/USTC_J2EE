@@ -38,7 +38,7 @@ public class InterceptorProxy {
 
 //			interceptorsInfo--当前action节点的全部interceptor属性
         List<Map<String, String>> interceptorsInfo = new ArrayList<Map<String, String>>();
-        if (interceptorNames != null){
+        if (interceptorNames != null) {
             if (interceptorsValid(interceptorNames)) {
 
                 for (Map<String, String> map : StoneValueUtil.getInterceptorInfos()) {
@@ -53,7 +53,7 @@ public class InterceptorProxy {
 //            System.out.println(proxy.getClass().getName());
 //            ReflectionUtil.runMethod(proxy.getClass(), proxy, (String) attrMap.get("method"));
             }
-        }else {
+        } else {
             interceptorsInfo = null;
         }
 
@@ -65,7 +65,7 @@ public class InterceptorProxy {
 //        Action actionInstance = (Action) ReflectionUtil.getInstance((String) attrMap.get("class"));
 //        从ioc容器内取出对应action实例，要求配置为类短名首字母小写
         String className = (String) attrMap.get("class");
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext();
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("/applicationContext.xml");
         String shortClassName = className.substring(className.lastIndexOf(".") + 1);
         Action actionInstance = (Action) classPathXmlApplicationContext.getBean((new StringBuilder()).append(Character.toLowerCase(shortClassName.charAt(0))).append(shortClassName.substring(1)).toString());
 
@@ -84,7 +84,7 @@ public class InterceptorProxy {
 //				执行predo
                 for (Interceptor interceptor : interceptors) {
                     if (!interceptor.preAction()) {
-                        ControllerUtil.doResponse(request, response,"redirect", "error");
+                        ControllerUtil.doResponse(request, response, "redirect", "error");
                         throw new MyException("拦截请求");
                     }
                     stack.push(interceptor);
@@ -161,6 +161,7 @@ public class InterceptorProxy {
 
     /**
      * 判断interceptor是否被声明
+     *
      * @param actionInterceptors
      * @return
      */

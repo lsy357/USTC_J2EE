@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Conversation {
 
-//    懒了，直接按照一个映射文件写
+    //    懒了，直接按照一个映射文件写
     private static List<String> lazyLoadAttrs = new ArrayList<>(0);
     private static List<String> eagerLoadAttrs = new ArrayList<>(0);
 
@@ -18,28 +18,28 @@ public class Conversation {
         parseMappers();
     }
 
-    public static Map<String, Map<String, Object>> getMappers(){
+    public static Map<String, Map<String, Object>> getMappers() {
         return mappers;
     }
 
-    public static List<String> getLazyLoadAttrs(){
+    public static List<String> getLazyLoadAttrs() {
         return lazyLoadAttrs;
     }
 
-    public static List<String> getEagerLoadAttrs(){
+    public static List<String> getEagerLoadAttrs() {
         return eagerLoadAttrs;
     }
 
     /**
      * 将orm对象信息存储到map中，以类名为key，全部orm又存储到一个map中
-     *
      * 单个orm的mapping信息：
      * k - table, v - 表名
      * k - id, idBean主键mapping
      * k - properties, v - List<PropertyBean>全部属性mapping
+     *
      * @return
      */
-    protected static void parseMappers(){
+    protected static void parseMappers() {
 
         String table = "";
         String className = "";
@@ -55,18 +55,14 @@ public class Conversation {
         idBean = entityMapper.getId();
         properties = entityMapper.getProperties();
 
-        for (PropertyBean property : properties){
-            if ("true".equals(property.getLazy())){
+        for (PropertyBean property : properties) {
+            if ("true".equals(property.getLazy())) {
                 lazyLoadAttrs.add(property.getName());
             }
         }
 
         mapper.put("table", table);
-//        mapper.put(idBean.getName(), idBean.getColumn());
         mapper.put("id", idBean);
-//        for (PropertyBean property : properties){
-//            mapper.put(property.getName(), property.getColumn());
-//        }
         mapper.put("properties", properties);
         mappers.put(className, mapper);
     }

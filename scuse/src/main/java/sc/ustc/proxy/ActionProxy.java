@@ -34,7 +34,7 @@ public class ActionProxy implements MethodInterceptor {
         this.attrMap = attrMap;
     }
 
-    public Object bind(Object target){
+    public Object bind(Object target) {
         this.target = target;
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(this.target.getClass());
@@ -52,7 +52,7 @@ public class ActionProxy implements MethodInterceptor {
 //				执行predo
         for (Interceptor interceptor : interceptors) {
             if (!interceptor.preAction()) {
-                ControllerUtil.doResponse(request, response,"redirect", "error");
+                ControllerUtil.doResponse(request, response, "redirect", "error");
 //                        throw new MyException("拦截请求");
             }
             stack.push(interceptor);

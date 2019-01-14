@@ -18,7 +18,7 @@ public class ReflectionUtil {
         }
     }
 
-//    实例私有构造方法类
+    //    实例私有构造方法类
     public static Object getDeclaredInstance(String className) {
         try {
             Class clazz = Class.forName(className);
@@ -73,6 +73,7 @@ public class ReflectionUtil {
 
     /**
      * 获取实现特定接口类的字节码
+     *
      * @param packName
      * @param clazz
      * @return

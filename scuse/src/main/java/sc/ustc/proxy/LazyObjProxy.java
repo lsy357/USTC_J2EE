@@ -5,6 +5,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import sc.ustc.dao.Conversation;
 import sc.ustc.dao.JDBCQueryRunner;
+
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class LazyObjProxy implements MethodInterceptor {
         this.lazyMapper = lazyMapper;
     }
 
-    public Object bind(Class clazz){
+    public Object bind(Class clazz) {
         this.clazz = clazz;
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(clazz);
@@ -34,18 +35,18 @@ public class LazyObjProxy implements MethodInterceptor {
         String methodName = method.getName();
 //        获取对应属性字段
         String fieldName = (new StringBuilder()).append(Character.toLowerCase(methodName.substring(3).charAt(0))).append(methodName.substring(3).substring(1)).toString();
-        if (methodName.startsWith("get")){
-            if (Conversation.getLazyLoadAttrs().contains(fieldName)){
+        if (methodName.startsWith("get")) {
+            if (Conversation.getLazyLoadAttrs().contains(fieldName)) {
 //            查询赋值
                 Object value = JDBCQueryRunner.query("select " + lazyMapper.get(fieldName) + " " + lazyMapper.get("sql"), lazyMapper.get(fieldName)).get(0);
                 System.out.println("select " + lazyMapper.get(fieldName) + " " + lazyMapper.get("sql"));
                 Method setter = clazz.getDeclaredMethod("set" + methodName.substring(3), String.class);
                 setter.invoke(o, value);
                 obj = methodProxy.invokeSuper(o, objects);
-            }else {
+            } else {
                 return methodProxy.invokeSuper(o, objects);
             }
-        }else {
+        } else {
             obj = methodProxy.invokeSuper(o, objects);
         }
         return obj;

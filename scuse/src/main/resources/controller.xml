@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sc-configuration>
-	<!--action的name属性为请求的servletPath-->
-	<interceptor name="logger" class="water.ustc.interceptor.LogInterceptor" predo="preAction" afterdo="afterAction"></interceptor>
+    <!--action的name属性为请求的servletPath-->
+    <interceptor name="logger" class="water.ustc.interceptor.LogInterceptor" predo="preAction"
+                 afterdo="afterAction"></interceptor>
     <!--<interceptor name="publicURL" class="water.ustc.interceptor.MyPublicInterceptor" predo="preAction" afterdo="afterAction"></interceptor>-->
-	<interceptor-config>
-		<init-param name="publicURL">
-			<list>
-				<value>/loginUI.sc</value>
+    <interceptor-config>
+        <init-param name="publicURL">
+            <list>
+                <value>/loginUI.sc</value>
                 <value>/login.sc</value>
-				<value>/register.sc</value>
-			</list>
-		</init-param>
-	</interceptor-config>
-	<controller>
-		<action name="loginUI" class="water.ustc.action.LoginAction" method="loginUI">
-			<interceptor-ref name="logger"></interceptor-ref>
+                <value>/register.sc</value>
+            </list>
+        </init-param>
+    </interceptor-config>
+    <controller>
+        <action name="loginUI" class="water.ustc.action.LoginAction" method="loginUI">
+            <interceptor-ref name="logger"></interceptor-ref>
             <!--<interceptor-ref name="publicURL"></interceptor-ref>-->
-			<result name="success" type="redirect">jsp/login</result>
-		</action>
-		<action name="login" class="water.ustc.action.LoginAction" method="login">
-			<interceptor-ref name="logger"></interceptor-ref>
-			<result name="success" type="redirect">dashboard</result>
-			<result name="failure" type="redirect">jsp/login</result>
-		</action>
-		<action name="dashboard" class="water.ustc.action.LoginAction" method="dashboard">
-			<interceptor-ref name="logger"></interceptor-ref>
-			<result name="dashboard" type="forward">dashboard</result>
-		</action>
-		<action name="register" class="water.ustc.action.RegisterAction" method="register">
-			<interceptor-ref name="logger"></interceptor-ref>
-			<result name="register" type="redirect">register</result>
-		</action>
-	</controller>
+            <result name="success" type="redirect">jsp/login</result>
+        </action>
+        <action name="login" class="water.ustc.action.LoginAction" method="login">
+            <interceptor-ref name="logger"></interceptor-ref>
+            <result name="success" type="redirect">dashboard</result>
+            <result name="failure" type="redirect">jsp/login</result>
+        </action>
+        <action name="dashboard" class="water.ustc.action.LoginAction" method="dashboard">
+            <interceptor-ref name="logger"></interceptor-ref>
+            <result name="dashboard" type="forward">dashboard</result>
+        </action>
+        <action name="register" class="water.ustc.action.RegisterAction" method="register">
+            <interceptor-ref name="logger"></interceptor-ref>
+            <result name="register" type="redirect">register</result>
+        </action>
+    </controller>
 </sc-configuration>

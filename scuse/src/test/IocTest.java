@@ -7,10 +7,10 @@ import water.ustc.service.UserService;
 public class IocTest {
 
     @Test
-    public void iocTest(){
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext();
-        ClassPathXmlApplicationContext applicationContext1 = new ClassPathXmlApplicationContext();
-        ClassPathXmlApplicationContext applicationContext2 = new ClassPathXmlApplicationContext();
+    public void iocTest() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext.xml");
+        ClassPathXmlApplicationContext applicationContext1 = new ClassPathXmlApplicationContext("/applicationContext.xml");
+        ClassPathXmlApplicationContext applicationContext2 = new ClassPathXmlApplicationContext("/applicationContext.xml");
         UserService userService = (UserService) applicationContext.getBean("userService");
         UserBean user = (UserBean) applicationContext.getBean("user");
         UserBean user1 = (UserBean) applicationContext1.getBean("user");
@@ -29,7 +29,7 @@ public class IocTest {
     }
 
     @Test
-    public void loginActionTest(){
+    public void loginActionTest() {
     }
 
 }

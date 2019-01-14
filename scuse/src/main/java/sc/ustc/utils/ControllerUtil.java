@@ -16,22 +16,23 @@ public class ControllerUtil {
     //	指定controller.xml特定位置
     final static private File controllerXML = new File(StoneValueUtil.class.getResource("/controller.xml").getFile());
 
-    public static String getServletPath(HttpServletRequest request){
+    public static String getServletPath(HttpServletRequest request) {
         return request.getServletPath();
     }
 
     /**
      * 根据result响应请求，默认为forward方式
+     *
      * @param request
      * @param response
      * @param responseMethod
-     * @param servletPath response的servletPath
+     * @param servletPath    response的servletPath
      * @return
      * @throws Exception
      */
-    public static String doResponse(HttpServletRequest request, HttpServletResponse response, String responseMethod ,String servletPath) throws Exception {
-        if (responseMethod != null){
-            switch (responseMethod){
+    public static String doResponse(HttpServletRequest request, HttpServletResponse response, String responseMethod, String servletPath) throws Exception {
+        if (responseMethod != null) {
+            switch (responseMethod) {
                 case "redirect":
                     response.setHeader("refresh", "0;url=" + getDirectURL(request.getContextPath(), servletPath));
                     return "redirect";
@@ -52,20 +53,21 @@ public class ControllerUtil {
         return contextPath + "/" + getForwardURI(servletPath);
     }
 
-    public static String getForwardURI(String servletPath){
-        if (servletPath.contains("jsp")){
+    public static String getForwardURI(String servletPath) {
+        if (servletPath.contains("jsp")) {
             return servletPath + ".jsp";
-        }else if (servletPath.contains("pages")){
+        } else if (servletPath.contains("pages")) {
             return servletPath + ".xml";
-        }else if (servletPath.contains("html")){
+        } else if (servletPath.contains("html")) {
             return servletPath + ".html";
-        }else {
+        } else {
             return servletPath + ".html";
         }
     }
 
     /**
      * 解析URL并获取controller.xml中action节点信息
+     *
      * @param request
      * @param response
      * @return
@@ -75,7 +77,7 @@ public class ControllerUtil {
         String servletPath = getServletPath(request);
         String actionName = servletPath.substring(servletPath.lastIndexOf("/") + 1, servletPath.lastIndexOf("."));
 //        Map<Object, Object> map = XMLUtil.getElementAttributeByName(controllerXML, "action", actionName);
-        Map<String, Object> map = XMLUtil.parseThirdLevelElememt(controllerXML,"controller", "action", actionName);
+        Map<String, Object> map = XMLUtil.parseThirdLevelElememt(controllerXML, "controller", "action", actionName);
         if (map == null) {
             throw new MyException("action映射失败");
         }
@@ -84,6 +86,7 @@ public class ControllerUtil {
 
     /**
      * 获取result映射视图和响应方式
+     *
      * @param actionElement
      * @param resultName
      * @return

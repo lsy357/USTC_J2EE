@@ -7,6 +7,7 @@ import water.ustc.service.UserService;
 public class UserServiceImpl implements UserService {
 
     public UserDao userDao;
+
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -14,8 +15,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkLogin(UserBean user) throws Exception {
         UserBean userBean = userDao.findUserByName(user.getUserName());
-        if (userBean != null){
-            if (user.getUserPassword().equals(userBean.getUserPassword())){
+        if (userBean != null) {
+            if (user.getUserPassword().equals(userBean.getUserPassword())) {
                 return true;
             }
         }

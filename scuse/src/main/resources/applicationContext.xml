@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <sc-di>
 
-	<bean id="userService" class="water.ustc.service.impl.UserServiceImpl">
-		<property name="userDao" bean-ref="userDao"></property>
-	</bean>
-	<bean id="user" class="water.ustc.pojo.UserBean"></bean>
-	<bean id="userDao" class="water.ustc.dao.impl.UserDaoImpl"></bean>
+    <bean id="userService" class="water.ustc.service.impl.UserServiceImpl">
+        <property name="userDao" bean-ref="userDao"></property>
+    </bean>
+    <bean id="user" class="water.ustc.pojo.UserBean"></bean>
+    <bean id="userDao" class="water.ustc.dao.impl.UserDaoImpl"></bean>
 
     <bean id="loginAction" class="water.ustc.action.LoginAction">
         <property name="userService" bean-ref="userService"></property>
-		<property name="user" bean-ref="user"></property>
+        <property name="user" bean-ref="user"></property>
     </bean>
 
     <bean id="registerAction" class="water.ustc.action.RegisterAction"></bean>

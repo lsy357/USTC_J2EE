@@ -6,7 +6,7 @@ import water.ustc.pojo.UserBean;
 public class SessionTest {
 
     @Test
-    public void queryAllTest(){
+    public void queryAllTest() {
         Session session1 = SessionFactory.getCurrentSession();
         try {
             System.out.println(session1.query(UserBean.class));
@@ -16,7 +16,7 @@ public class SessionTest {
     }
 
     @Test
-    public void getTest(){
+    public void getTest() {
         Session session = SessionFactory.getCurrentSession();
         try {
             System.out.println(session.get(UserBean.class, 2));
@@ -26,7 +26,7 @@ public class SessionTest {
     }
 
     @Test
-    public void loadTest(){
+    public void loadTest() {
         Session session = SessionFactory.getCurrentSession();
         try {
             UserBean userBean = (UserBean) session.load(UserBean.class, 1);
@@ -39,25 +39,37 @@ public class SessionTest {
     }
 
     @Test
-    public void insertTest(){
+    public void insertTest() {
         Session session = SessionFactory.getCurrentSession();
         UserBean user = new UserBean();
-//        user.setUserId(4);
         user.setUserName("123456");
         user.setUserPassword("123456");
         try {
-//            session.update(user);
-            session.insert(user);
+            System.out.println(session.insert(user));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteTest() {
         Session session = SessionFactory.getCurrentSession();
         try {
-            System.out.println(session.delete(UserBean.class, 4));
+            System.out.println(session.delete(UserBean.class, 5));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void updateTest() {
+        Session session = SessionFactory.getCurrentSession();
+        UserBean user = new UserBean();
+        user.setUserId(4);
+        user.setUserName("1234567");
+        user.setUserPassword("1234567");
+        try {
+            System.out.println(session.update(user));
         } catch (Exception e) {
             e.printStackTrace();
         }

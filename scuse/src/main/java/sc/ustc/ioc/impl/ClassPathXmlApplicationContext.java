@@ -9,21 +9,26 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class ClassPathXmlApplicationContext implements BeanFactory{
+public class ClassPathXmlApplicationContext implements BeanFactory {
 
-    private final static File iocConfig = new File(ClassPathXmlApplicationContext.class.getResource("/applicationContext.xml").getFile());
+    private String path;
+    private File iocConfig;
     private static Map<String, Object> container = new HashMap<String, Object>();
 
-//    使用静态代码块简化了默认单例的实现
-    private final Set<String> prototypeCache = new HashSet<>();
-    static {
+    public ClassPathXmlApplicationContext(String path) {
+        this.path = path;
+    }
+
+    private void initContainer(){
+        iocConfig = new File(ClassPathXmlApplicationContext.class.getResource(path).getFile());
+
         List<Element> beanElements = XMLUtil.getSubElementOfRoot(iocConfig, "bean");
         Stack<Map> stack = new Stack<>();
 
         try {
 //            遍历每个bean节点
-            for(int i = 0; i < beanElements.size(); i++){
-                Element element = (Element)beanElements.get(i);
+            for (int i = 0; i < beanElements.size(); i++) {
+                Element element = (Element) beanElements.get(i);
 
                 String id = element.attributeValue("id");
                 String clazz = element.attributeValue("class");
@@ -33,16 +38,16 @@ public class ClassPathXmlApplicationContext implements BeanFactory{
                 container.put(id, obj);
 
 //                注入依赖，使用了setter注入，没有实现constructor注入
-                if (element.element("property") != null){
-                    for(Element propertyElement : (List<Element>)element.elements("property")){
+                if (element.element("property") != null) {
+                    for (Element propertyElement : (List<Element>) element.elements("property")) {
                         String name = propertyElement.attributeValue("name");
 //                        String methodName = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
 
                         String injectedDependance = "";
-                        if (propertyElement.attributeValue("bean-ref") != null){
+                        if (propertyElement.attributeValue("bean-ref") != null) {
                             injectedDependance = propertyElement.attributeValue("bean-ref");
                             Object propertyObj = container.get(injectedDependance);
-                            if (propertyObj == null){
+                            if (propertyObj == null) {
                                 Map<String, Object> map = new HashMap<>(0);
                                 map.put("obj", obj);
 //                                map.put("setter", methodName);
@@ -52,23 +57,23 @@ public class ClassPathXmlApplicationContext implements BeanFactory{
                                 break;
                             }
                             injectBeanDependance(obj, name, injectedDependance);
-                        }else {
+                        } else {
                             injectedDependance = propertyElement.attributeValue("value");
                             BeanUtils.setProperty(obj, name, injectedDependance);
                         }
                     }
                 }
             }
-            while (!stack.empty()){
+            while (!stack.empty()) {
                 Map injectionMap = stack.pop();
                 injectBeanDependance(injectionMap.get("obj"), (String) injectionMap.get("attr"), (String) injectionMap.get("ref"));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void injectBeanDependance(Object obj, String name, String injectedDependance){
+    private void injectBeanDependance(Object obj, String name, String injectedDependance) {
         try {
             Object propertyObj = container.get(injectedDependance);
             BeanUtils.setProperty(obj, name, propertyObj);
@@ -78,7 +83,10 @@ public class ClassPathXmlApplicationContext implements BeanFactory{
     }
 
     @Override
-    public Object getBean(String id){
+    public Object getBean(String id) {
+        if (container.isEmpty()){
+            initContainer();
+        }
         return container.get(id);
     }
 }

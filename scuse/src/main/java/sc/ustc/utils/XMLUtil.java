@@ -25,64 +25,69 @@ import org.dom4j.io.XMLWriter;
  */
 public class XMLUtil {
 
-	public static Document getXmlDoc(File file) {
+    public static Document getXmlDoc(File file) {
 
-		SAXReader reader = new SAXReader();
-		Document doc = null;
-		try {
-			doc = reader.read(file);
-		} catch (DocumentException e) {
-			e.printStackTrace();
-			throw new RuntimeException("xml文档路径错误");
-		}
-		return doc;
-	}
+        SAXReader reader = new SAXReader();
+        Document doc = null;
+        try {
+            doc = reader.read(file);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+            throw new RuntimeException("xml文档路径错误");
+        }
+        return doc;
+    }
 
     /**
      * 获取第一层根节点
+     *
      * @param src_file
      * @return
      */
-	public static Element getRootElement(File src_file) {
-		return getXmlDoc(src_file).getRootElement();
-	}
+    public static Element getRootElement(File src_file) {
+        return getXmlDoc(src_file).getRootElement();
+    }
 
     /**
      * 获取第二层节点
+     *
      * @param file
      * @param elementType
      * @return
      */
-    public static List<Element> getSubElementOfRoot(File file, String elementType){
+    public static List<Element> getSubElementOfRoot(File file, String elementType) {
         Element root = getRootElement(file);
         return root.elements(elementType);
     }
 
     /**
      * 获取第三层节点
+     *
      * @param file
      * @param parent
      * @param elementType
      * @return
      */
-	public static List<Element> getThirdLevelElements(File file, String parent, String elementType){
-		Element root = getRootElement(file);
-		Element element = root.element(parent);
-		return element.elements(elementType);
-	}
+    public static List<Element> getThirdLevelElements(File file, String parent, String elementType) {
+        Element root = getRootElement(file);
+        Element element = root.element(parent);
+        return element.elements(elementType);
+    }
 
     /**
      * 获取当前节点子节点，用来通过第三层节点获取第四层节点
+     *
      * @param parent
      * @param elementType
      * @return
      */
-	public static List<Element> getSubElements(Element parent, String elementType){
-		return parent.elements(elementType);
-	}
+    public static List<Element> getSubElements(Element parent, String elementType) {
+        return parent.elements(elementType);
+    }
 
     /**
      * 解析全部ThirdLevelElememt--parent为第三层被解析节点，获取其类型为elementType中名为elementName节点及属性
+     *
      * @param file
      * @param elementType
      * @param elementName
@@ -103,151 +108,159 @@ public class XMLUtil {
         }
         return null;
     }
-	
-	/**
-	 * 获取节点的所有属性
-	 * @param element
-	 * @return
-	 */
-	public static Map<String, Object> getElementsAttrs(Element element){
-		List<Attribute> attributes = element.attributes();
-		Map<String, Object> map = new HashMap<String, Object>();
-		for (Attribute attribute : attributes) {
-			map.put(attribute.getName(), attribute.getValue());
-		}
-		return map;
-	}
-	
-	/**
-	 * 查询所有secondeLevel所有指定属性值
-	 * @param file
-	 * @param elementType
-	 * @param attrName
-	 * @return
-	 */
-	public static List<String> getRElementAttrByName(File file, String elementType, String attrName){
-		List<Element> rElements = getSubElementOfRoot(file, elementType);
-		List<String> list = new ArrayList<>();
-		for (Element rElement : rElements) {
-			list.add(rElement.attribute(attrName).getValue());
-		}
-		return list;
-	}
-	
-	/**
-	 * 获取全部secondeLevel全部属性
-	 * @param file
-	 * @param elementType
-	 * @return
-	 * @throws Exception
-	 */
-	public static List<Map<String, String>> getAllRElementAttrs(File file, String elementType) throws Exception{
-		List<Element> rElements = getSubElementOfRoot(file, elementType);
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		for (Element rElement : rElements) {
-			List<Attribute> attributes = rElement.attributes();
-			Map<String, String> map = new HashMap<String, String>();
-			for (Attribute attribute : attributes) {
-				map.put(attribute.getName(), attribute.getValue());
-			}
-			list.add(map);
-		}
-		return list;
-	}
 
-	/**
-	 * 获取名为resultName的result节点type值和value值
-	 * @param actionElement
-	 * @param resultName
-	 * @return
-	 */
-	public static Map<String, String> getReslutInfoByName(Element actionElement, String resultName) {
+    /**
+     * 获取节点的所有属性
+     *
+     * @param element
+     * @return
+     */
+    public static Map<String, Object> getElementsAttrs(Element element) {
+        List<Attribute> attributes = element.attributes();
+        Map<String, Object> map = new HashMap<String, Object>();
+        for (Attribute attribute : attributes) {
+            map.put(attribute.getName(), attribute.getValue());
+        }
+        return map;
+    }
 
-		Map<String, String> map = new HashMap<String, String>();
-		List<Element> elements = actionElement.elements("result");
-		for (Element element : elements) {
-			if (resultName.equals(element.attributeValue("name")) && element.getText() != null) {
-				map.put("type", element.attributeValue("type"));
-				map.put("value", element.getText());
-				return map;
-			}
-		}
-		return null;
+    /**
+     * 查询所有secondeLevel所有指定属性值
+     *
+     * @param file
+     * @param elementType
+     * @param attrName
+     * @return
+     */
+    public static List<String> getRElementAttrByName(File file, String elementType, String attrName) {
+        List<Element> rElements = getSubElementOfRoot(file, elementType);
+        List<String> list = new ArrayList<>();
+        for (Element rElement : rElements) {
+            list.add(rElement.attribute(attrName).getValue());
+        }
+        return list;
+    }
 
-	}
+    /**
+     * 获取全部secondeLevel全部属性
+     *
+     * @param file
+     * @param elementType
+     * @return
+     * @throws Exception
+     */
+    public static List<Map<String, String>> getAllRElementAttrs(File file, String elementType) throws Exception {
+        List<Element> rElements = getSubElementOfRoot(file, elementType);
+        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        for (Element rElement : rElements) {
+            List<Attribute> attributes = rElement.attributes();
+            Map<String, String> map = new HashMap<String, String>();
+            for (Attribute attribute : attributes) {
+                map.put(attribute.getName(), attribute.getValue());
+            }
+            list.add(map);
+        }
+        return list;
+    }
 
-	/**
-	 * 获取公开url
-	 * @param file
-	 * @return
-	 */
-	public static List<String> getPublicUrls(File file){
-		List<String> urls = new ArrayList<>(0);
-		List<Element> interceptorParamsElements = getThirdLevelElements(file, "interceptor-config", "init-param");
-		if (interceptorParamsElements != null){
-			for (Element interceptorParamsElement : interceptorParamsElements){
-				if ("publicURL".equals(interceptorParamsElement.attributeValue("name"))){
-					urls = getListValues(interceptorParamsElement.element("list"));
-					break;
-				}
-			}
-		}
-		return urls;
-	}
+    /**
+     * 获取名为resultName的result节点type值和value值
+     *
+     * @param actionElement
+     * @param resultName
+     * @return
+     */
+    public static Map<String, String> getReslutInfoByName(Element actionElement, String resultName) {
 
-	/**
-	 * 获取list节点下的所有value值
-	 * @param listElement
-	 * @return
-	 */
-	public static List<String> getListValues(Element listElement){
-		List<String> list = new ArrayList<>(0);
-		List<Element> valueElements = listElement.elements("value");
-		for (Element element : valueElements){
-			list.add(element.getText());
-		}
-		return list;
-	}
+        Map<String, String> map = new HashMap<String, String>();
+        List<Element> elements = actionElement.elements("result");
+        for (Element element : elements) {
+            if (resultName.equals(element.attributeValue("name")) && element.getText() != null) {
+                map.put("type", element.attributeValue("type"));
+                map.put("value", element.getText());
+                return map;
+            }
+        }
+        return null;
 
-	/**
-	 * 将map以规定日志格式记录在E:/logger.xml
-	 * @param map
-	 * @throws Exception
-	 */
-	public static void map2xml(Map<String, String> map) throws Exception {
-		File file = new File("E:/logger.xml");
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		DocumentBuilder db = dbf.newDocumentBuilder();
-		Document doc = null;
-		Element root = null;
-		if (file.exists() && file.length() != 0) {
-			doc = getXmlDoc(file);
-			root = doc.getRootElement();
-		} else {
-			doc = DocumentHelper.createDocument();
-			root = doc.addElement("log");
-		}
-		if (map != null) {
-			Element actionElement = root.addElement("action");
-			Iterator<Map.Entry<String, String>> entries = map.entrySet().iterator();
-			while (entries.hasNext()) {
-				Map.Entry<String, String> entry = entries.next();
-				actionElement.addElement(entry.getKey()).addText(entry.getValue());
-			}
-			writeXML(doc, file);
-		}
-	}
-	
-	/**
-	 * 将document对象转换为XML
-	 * @param document
-	 * @param file
-	 * @throws Exception
-	 */
-	public static void writeXML(Document document, File file) throws Exception {
+    }
+
+    /**
+     * 获取公开url
+     *
+     * @param file
+     * @return
+     */
+    public static List<String> getPublicUrls(File file) {
+        List<String> urls = new ArrayList<>(0);
+        List<Element> interceptorParamsElements = getThirdLevelElements(file, "interceptor-config", "init-param");
+        if (interceptorParamsElements != null) {
+            for (Element interceptorParamsElement : interceptorParamsElements) {
+                if ("publicURL".equals(interceptorParamsElement.attributeValue("name"))) {
+                    urls = getListValues(interceptorParamsElement.element("list"));
+                    break;
+                }
+            }
+        }
+        return urls;
+    }
+
+    /**
+     * 获取list节点下的所有value值
+     *
+     * @param listElement
+     * @return
+     */
+    public static List<String> getListValues(Element listElement) {
+        List<String> list = new ArrayList<>(0);
+        List<Element> valueElements = listElement.elements("value");
+        for (Element element : valueElements) {
+            list.add(element.getText());
+        }
+        return list;
+    }
+
+    /**
+     * 将map以规定日志格式记录在E:/logger.xml
+     *
+     * @param map
+     * @throws Exception
+     */
+    public static void map2xml(Map<String, String> map) throws Exception {
+        File file = new File("E:/logger.xml");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = null;
+        Element root = null;
+        if (file.exists() && file.length() != 0) {
+            doc = getXmlDoc(file);
+            root = doc.getRootElement();
+        } else {
+            doc = DocumentHelper.createDocument();
+            root = doc.addElement("log");
+        }
+        if (map != null) {
+            Element actionElement = root.addElement("action");
+            Iterator<Map.Entry<String, String>> entries = map.entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry<String, String> entry = entries.next();
+                actionElement.addElement(entry.getKey()).addText(entry.getValue());
+            }
+            writeXML(doc, file);
+        }
+    }
+
+    /**
+     * 将document对象转换为XML
+     *
+     * @param document
+     * @param file
+     * @throws Exception
+     */
+    public static void writeXML(Document document, File file) throws Exception {
         OutputFormat outputFormat = OutputFormat.createPrettyPrint();
         outputFormat.setEncoding("UTF-8");
-        XMLWriter writer = new XMLWriter(new FileWriter(file),outputFormat);
+        XMLWriter writer = new XMLWriter(new FileWriter(file), outputFormat);
         writer.write(document);
         writer.close();
     }

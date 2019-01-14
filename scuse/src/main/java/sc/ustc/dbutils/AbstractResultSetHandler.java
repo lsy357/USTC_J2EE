@@ -10,9 +10,11 @@ public abstract class AbstractResultSetHandler<T> {
      */
     protected static Map<String, Map<String, String>> mapperChart = new HashMap<>(0);
 
-    public static Map<String, Map<String, String>> getMapperChart(){
+    public static Map<String, Map<String, String>> getMapperChart() {
         return mapperChart;
     }
+
     protected abstract T handle(ResultSet rs) throws Exception;
+
     protected abstract T lazyHandle(ResultSet rs, Map<String, String> lazyMapper) throws Exception;
 }

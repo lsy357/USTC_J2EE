@@ -17,6 +17,7 @@ public class IntrospectorUtil<T> {
             }
         }
     }
+
     public Object callGetter(T object, String attrName) throws InvocationTargetException, IllegalAccessException {
         Method[] ms = object.getClass().getMethods();
         String methodName = "get" + attrName;

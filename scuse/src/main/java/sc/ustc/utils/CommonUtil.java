@@ -9,21 +9,17 @@ import java.util.Map;
 
 public class CommonUtil {
 
-    public static String getColumnName(String varName, Class classType, Map<String, Object> mapper, Map<String, Map<String, String>> mapperChart){
+    public static String getColumnName(String varName, Class classType, Map<String, Object> mapper, Map<String, Map<String, String>> mapperChart) {
         Map<String, String> map = mapperChart.get(classType.getName());
-        if (map == null){
+        if (map == null) {
 //            添加主键对应信息
             map = new HashMap<>(0);
             IdBean id = (IdBean) mapper.get("id");
             map.put(id.getName(), id.getColumn());
 //            添加非主键属性对应信息
             List<PropertyBean> properties = (List<PropertyBean>) mapper.get("properties");
-            for(PropertyBean property : properties){
+            for (PropertyBean property : properties) {
                 map.put(property.getName(), property.getColumn());
-//            if (varName.equalsIgnoreCase(property.getName())){
-//                map.put(varName, property.getColumn());
-//                return property.getColumn();
-//            }
             }
             mapperChart.put(classType.getName(), map);
         }

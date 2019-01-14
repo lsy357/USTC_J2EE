@@ -9,7 +9,7 @@ public class UserDao {
     private water.ustc.dao.UserDao userDao = new UserDaoImpl();
 
     @Test
-    public void queryAllTest(){
+    public void queryAllTest() {
         try {
             List<UserBean> userBeans = (List<UserBean>) userDao.query();
             System.out.println(userBeans);
@@ -19,7 +19,7 @@ public class UserDao {
     }
 
     @Test
-    public void findOneTest(){
+    public void findOneTest() {
         UserBean userBean = null;
         try {
             userBean = (UserBean) userDao.findOne(1);
@@ -30,7 +30,7 @@ public class UserDao {
     }
 
     @Test
-    public void insertTest(){
+    public void insertTest() {
         UserBean user = new UserBean();
         user.setUserId(2);
         user.setUserName("2222");
@@ -43,7 +43,7 @@ public class UserDao {
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         UserBean user = new UserBean();
         user.setUserId(2);
         user.setUserName("55555");
@@ -57,7 +57,7 @@ public class UserDao {
     }
 
     @Test
-    public void deleteTest(){
+    public void deleteTest() {
         try {
             userDao.delete(3);
         } catch (Exception e) {
@@ -66,9 +66,9 @@ public class UserDao {
     }
 
     @Test
-    public void findByAttrTest(){
+    public void findByAttrTest() {
         try {
-            System.out.println((UserBean)userDao.findUserByName("lsy"));
+            System.out.println((UserBean) userDao.findUserByName("lsy"));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,10 +13,11 @@ public class PrivacyInterceptor implements Interceptor {
 
     /**
      * 设置公共资源，要求设置为servletPath，在preAction调用前设置
+     *
      * @param list
      * @return
      */
-    public static void setPublicURLs(List<String> list){
+    public static void setPublicURLs(List<String> list) {
         publicURLs.addAll(list);
     }
 
@@ -24,10 +25,10 @@ public class PrivacyInterceptor implements Interceptor {
     public boolean preAction() {
         System.out.println("PrivacyInterceptor afterActionWithNoParams");
         String servletPath = ApplicationContext.getRequest().getServletPath();
-        if (publicURLs.contains(servletPath)){
+        if (publicURLs.contains(servletPath)) {
             return true;
-        }else {
-            if (ApplicationContext.getRequest().getSession().getAttribute("user") != null){
+        } else {
+            if (ApplicationContext.getRequest().getSession().getAttribute("user") != null) {
                 return true;
             }
         }

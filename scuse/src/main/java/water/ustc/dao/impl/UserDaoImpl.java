@@ -36,7 +36,7 @@ public class UserDaoImpl extends UserDao {
             sql = "insert into user(userid, username, userpassword) value(?, ?, ?)";
             queryRunner.update(sql, user.getUserId(), user.getUserName(), user.getUserPassword());
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -49,7 +49,7 @@ public class UserDaoImpl extends UserDao {
                     user.getUserId(), user.getUserName(), user.getUserPassword());
             queryRunner.update(sql);
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -61,7 +61,7 @@ public class UserDaoImpl extends UserDao {
             sql = "delete from user where userid=?";
             queryRunner.update(sql, userId);
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;

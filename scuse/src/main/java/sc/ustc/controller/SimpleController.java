@@ -38,7 +38,7 @@ public class SimpleController extends HttpServlet {
             throws ServletException, IOException {
         // TODO Auto-generated method stub
         try {
-            initContainer(request,response);
+            initContainer(request, response);
             doDispath(request, response);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -50,8 +50,8 @@ public class SimpleController extends HttpServlet {
         }
     }
 
-//    域放入容器
-    private void initContainer(HttpServletRequest request, HttpServletResponse response){
+    //    域放入容器
+    private void initContainer(HttpServletRequest request, HttpServletResponse response) {
         ApplicationContext.setValue("request", request);
         ApplicationContext.setValue("response", response);
         ApplicationContext.setValue("applicationContext", getServletContext());
@@ -72,7 +72,7 @@ public class SimpleController extends HttpServlet {
             for (Element element : interceptorRefElements) {
                 interceptorNames.add(element.attribute("name").getText());
             }
-        }else {
+        } else {
             interceptorNames = null;
         }
 //			拦截器执行拦截

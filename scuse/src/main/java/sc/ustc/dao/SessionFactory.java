@@ -6,11 +6,12 @@ public class SessionFactory {
 
     /**
      * 将session与线程绑定
+     *
      * @return
      */
-    public static Session getCurrentSession(){
+    public static Session getCurrentSession() {
         Session session = tl.get();
-        if (session == null){
+        if (session == null) {
             session = new Session();
             tl.set(session);
         }
